@@ -6,6 +6,12 @@
     <title>Emo Sounds</title>
 </head>
 <body>
+
+    <div id="app">
+        <div class="moods">
+            <button v-for=" mood in moods" :class="mood.name"> {{ mood.icon }} </button>
+        </div>
+    </div>
     
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="./JS/app.js"></script>
