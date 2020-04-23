@@ -3,15 +3,18 @@
 } */
 html,body{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
     background: #ffffff;
     color: #95989A;
     margin:0;
 }
+#app{
+    max-width: 680px;
+    margin:auto;
+}
 
 .moods{
-    display: inline-block;
-    text-align: center;
-    margin: 5em;
+    margin: 5rem;
 }
 
 .moods button{
@@ -25,14 +28,64 @@ html,body{
 }
 
 .moods button.active{
-    background: skyblue;
+    background: #ADEFD1FF;
 }
 
 .moods button:hover{
     cursor: pointer;
-    background: rgba(135, 206, 235, .2);
+    background: rgba(173, 239, 209,.1);
 }
 
 .moods button.active:hover{
-    background: rgba(135, 206, 235,1);
+    background: #ADEFD1FF;
+}
+
+.btn-generate{
+    margin: 0 5em;
+    padding: 1em 2em;
+
+    font-size: 1rem;
+
+    text-align: center;
+    color: white;
+    background: #00203FFF;
+    border: none;
+    border-radius: 2em;
+    transition:  background .2s ease-in-out;
+}
+
+.btn-generate:hover{
+    cursor: pointer;
+    background:rgba(0, 32, 63,.8);
+}
+
+
+.playlist{
+    border: solid 1px #95989A;
+    padding: 3em;
+    border-radius: 1em;
+    margin: 5rem 0;
+}
+
+.playlist .track, .no-track{
+    padding: 1em 2.2em;
+    margin: 1em;
+}
+
+.playlist .track{
+    display: grid;
+    grid-template-columns: 1fr auto;
+    border: solid 1px #95989A;
+    border-radius: 4em;
+    
+}
+
+.playlist .track-name{
+    text-transform: uppercase;
+    color: #333;
+    font-weight: bold;
+}
+
+.playlist .track-artist{
+    font-size: .8em;
 }

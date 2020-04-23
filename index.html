@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./CSS/main.css">
-    <title>Emo Sounds</title>
+    <title>emo sounds</title>
 </head>
 <body>
 
     <div id="app">
-        <mood_bar></mood_bar>
+        <mood-area @mood-swings="updateEmotion"></mood-area>
+        <playlist-area :selected-emotion="selectedEmotion"></playlist-area>
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
