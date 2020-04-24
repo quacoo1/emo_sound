@@ -190,8 +190,8 @@ Vue.component('playlist-area',{
                             <div class="track-artist">{{ track.artist }}</div>
                         </div>
                         <div>
-                            <!-- <div class="btn-play"> ▶️ </div>
-                            <div class="btn-play"> ⏹️ </div> -->
+                            <div class="btn-play"> <i class="fas fa-play"></i> </div>
+                            <div class="btn-play"> <i class="fas fa-stop"></i> </div>
                         </div>
                     </div>
                 </div>
@@ -208,7 +208,6 @@ Vue.component('playlist-area',{
         generateTracks(){
             this.tracks = [];
 
-            
             music.forEach((track)=>{
                 if(track.mood == this.selectedEmotion){
                     this.tracks.push(track);
