@@ -68,16 +68,20 @@ html,body{
 }
 
 .playlist .track, .no-track{
-    padding: 1em 2.2em;
     margin: 1em;
 }
 
 .playlist .track{
+    position: relative;
     display: grid;
     grid-template-columns: 1fr auto;
     border: solid 1px #95989A;
     border-radius: 4em;
     
+}
+
+.playlist .track-info{
+    margin: 1em 2.2em;
 }
 
 .playlist .track-name{
@@ -88,4 +92,52 @@ html,body{
 
 .playlist .track-artist{
     font-size: .8em;
+}
+
+.playlist .btn-controls{
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+
+.playlist .btn-controls div{
+    border-left: solid 1px #95989A;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 2em;
+    transition: background 300ms ease-in-out;
+}
+
+
+.playlist .btn-controls div:hover{
+    cursor: pointer;
+    background: #efefefef;
+}
+
+
+.playlist .btn-stop{
+    border-top-right-radius: 4em;
+    border-bottom-right-radius: 4em;
+}
+
+.playlist .btn-controls div.btn-disabled, .playlist .btn-controls div.btn-disabled:hover{
+    background:transparent;
+    color: rgba(149, 152, 154, 0.15);
+    cursor: initial;
+    transition: 500ms ease-out ;
+}
+.playlist .track-player{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}
+
+.playlist .track-player.active{
+    height: 100%;
+    width:50px;
+    background: blue;
+   
+    border-top-left-radius: 4em;
+    border-bottom-left-radius: 4em;
 }

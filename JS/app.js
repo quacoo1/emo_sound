@@ -180,19 +180,21 @@ Vue.component('playlist-area',{
     },
     template:`
         <div>
+        
             <div class="btn-generate" @click="generateTracks">generate playlist</div>
             <div class="playlist">
                 <div v-if="!tracks.length" class="no-track"> Click Generate <span style="text-transform:capitalize"> {{ selectedEmotion.replace(/-/g,' ') }} </span> Playlist </div>
                 <div v-else class="tracks">
-                    <div v-for="track in tracks" :key="track.id" class="track">
+                    <div v-for="(track,index) in tracks" :key="track.id" class="track">
                         <div class="track-info">
                             <div class="track-name"> {{ track.name }} </div>
                             <div class="track-artist">{{ track.artist }}</div>
                         </div>
-                        <div>
-                            <div class="btn-play"> <i class="fas fa-play"></i> </div>
-                            <div class="btn-play"> <i class="fas fa-stop"></i> </div>
+                        <div class="btn-controls">
+                            <div class="btn-play" @click="play(index)">  <i v-if = "playing === index && pause === false" class="fas fa-pause"></i> <i v-else class="fas fa-play"></i></div>
+                            <div  class="btn-stop" :class="{ 'btn-disabled': playing !== index }" @click="stop(index)"> <i class="fas fa-stop"></i> </div>
                         </div>
+                        <div class="track-player"></div>
                     </div>
                 </div>
             </div>
@@ -201,20 +203,43 @@ Vue.component('playlist-area',{
 
     data(){
         return {
-            tracks: []
+            tracks: [],
+            playing: null,
+            pause: false,
         }
     },
     methods:{
+        play(index){
+            if (this.playing !== index){
+                this.playing = index;
+                this.pause = false;
+            }else{
+                this.pause = !this.pause;
+            }
+
+        },
+
+        stop(index){
+            if (this.playing == index){ 
+                this.playing  = null;
+                this.pause = false;
+            }
+        },
+
         generateTracks(){
             this.tracks = [];
 
             music.forEach((track)=>{
+
                 if(track.mood == this.selectedEmotion){
                     this.tracks.push(track);
                 }
+
             })
         }
-    }
+    },
+
+    
 });
 
 
