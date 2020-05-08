@@ -85,12 +85,16 @@ html,body{
 }
 
 .playlist .track-name{
+    position: relative;
+    z-index: 1;
     text-transform: uppercase;
     color: #333;
     font-weight: bold;
 }
 
 .playlist .track-artist{
+    position: relative;
+    z-index: 1;
     font-size: .8em;
 }
 
@@ -135,8 +139,8 @@ html,body{
 
 .playlist .track-player.active{
     height: 100%;
-    opacity: .2;
+    opacity: .5;
     border-top-left-radius: 4em;
     border-bottom-left-radius: 4em;
-    background: blue;
+    background: #ADEFD1FF;
 }

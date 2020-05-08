@@ -1,4 +1,6 @@
+/* REMEMBER AUDIO TAKES TIME TO LOAD */
 const eventBus = new Vue()
+let instance = []
 let music = [
     {
         id: 1001,
@@ -123,27 +125,6 @@ let music = [
     },
 ]
 
-let musicTracker = 0; //tracks the progress of the playing track
-let timer;
-
-function musicStart(){
-    
-    musicTracker = 0;
-    timer = setInterval(() => {
-
-        console.log(musicTracker);
-        eventBus.$emit('tracking');
-        
-        musicTracker++;
-        if(musicTracker > 10){
-            clearInterval(timer);
-            musicTracker = 0;
-        }
-
-        
-    }, 1000);
-
-}
 
 Vue.component('mood-area',{
     template: `
@@ -202,7 +183,6 @@ Vue.component('playlist-area',{
     },
     template:`
         <div>
-        
             <div class="btn-generate" @click="generateTracks">generate playlist</div>
             <div class="playlist">
                 <div v-if="!tracks.length" class="no-track"> Click Generate <span style="text-transform:capitalize"> {{ selectedEmotion.replace(/-/g,' ') }} </span> Playlist </div>
@@ -228,49 +208,71 @@ Vue.component('playlist-area',{
         return {
             tracks: [],
             playing: null,
+            player: new Audio(),
+            playerCurrentTime: 0,
             pause: false,
-            playTracker: 0,
+            
         }
     },
     methods:{
         play(index){
             if (this.playing !== index){
-                this.playTracker = 0;
-                musicStart();
                 this.playing = index;
+                if (this.player) this.player.pause();
+                this.playerCurrentTime = 0;
+        
+                this.player.setAttribute('src',this.tracks[this.playing].url)
+                this.player.play();
+
+
                 this.pause = false;
             }else{
                 this.pause = !this.pause;
+                if (this.pause)  this.player.pause(); else  this.player.play();
             }
 
         },
 
         stop(index){
             if (this.playing === index){ 
-                this.playing  = null;
-                this.pause = false;
+                 this.player.pause();
+                 this.playing  = null;
+                 this.pause = false;
             }
+        },
+
+        playerCurrentTimeIncrement(){
+            this.playerCurrentTime = this.player.currentTime;
         },
 
         generateTracks(){
             this.tracks = [];
+            this.player.pause();
             this.playing = null
             this.pause = false
+            index = 0;
 
             music.forEach((track)=>{
 
                 if(track.mood == this.selectedEmotion){
+                    track.url = `./music/${track.mood}/${index}.mp3`;
                     this.tracks.push(track);
+                    index++;
                 }
 
             })
         }
     },
 
+    computed: {
+        playTracker(){
+            playerDuration =  this.player.duration || 1;
+            return(this.playerCurrentTime / playerDuration * 100);
+        } 
+    },
+
     mounted(){
-        eventBus.$on('tracking', () => {
-            this.playTracker = (musicTracker/10) * 100;
-        });
+        setInterval(this.playerCurrentTimeIncrement,1000);
     }
 
     
