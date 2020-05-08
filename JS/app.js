@@ -1,4 +1,4 @@
-
+const eventBus = new Vue()
 let music = [
     {
         id: 1001,
@@ -123,6 +123,27 @@ let music = [
     },
 ]
 
+let musicTracker = 0; //tracks the progress of the playing track
+let timer;
+
+function musicStart(){
+    
+    musicTracker = 0;
+    timer = setInterval(() => {
+
+        console.log(musicTracker);
+        eventBus.$emit('tracking');
+        
+        musicTracker++;
+        if(musicTracker > 10){
+            clearInterval(timer);
+            musicTracker = 0;
+        }
+
+        
+    }, 1000);
+
+}
 
 Vue.component('mood-area',{
     template: `
@@ -176,7 +197,8 @@ Vue.component('playlist-area',{
         selectedEmotion:{
             type: String,
             required: true,
-        }
+        },
+       
     },
     template:`
         <div>
@@ -189,12 +211,13 @@ Vue.component('playlist-area',{
                         <div class="track-info">
                             <div class="track-name"> {{ track.name }} </div>
                             <div class="track-artist">{{ track.artist }}</div>
+                            <div class="track-player" :class="{active: playing===index}" :style="{ width: playTracker + '%' }"></div>
                         </div>
-                        <div class="btn-controls">
+                        <div class="btn-controls">      
                             <div class="btn-play" @click="play(index)">  <i v-if = "playing === index && pause === false" class="fas fa-pause"></i> <i v-else class="fas fa-play"></i></div>
                             <div  class="btn-stop" :class="{ 'btn-disabled': playing !== index }" @click="stop(index)"> <i class="fas fa-stop"></i> </div>
                         </div>
-                        <div class="track-player"></div>
+
                     </div>
                 </div>
             </div>
@@ -206,11 +229,14 @@ Vue.component('playlist-area',{
             tracks: [],
             playing: null,
             pause: false,
+            playTracker: 0,
         }
     },
     methods:{
         play(index){
             if (this.playing !== index){
+                this.playTracker = 0;
+                musicStart();
                 this.playing = index;
                 this.pause = false;
             }else{
@@ -220,7 +246,7 @@ Vue.component('playlist-area',{
         },
 
         stop(index){
-            if (this.playing == index){ 
+            if (this.playing === index){ 
                 this.playing  = null;
                 this.pause = false;
             }
@@ -228,6 +254,8 @@ Vue.component('playlist-area',{
 
         generateTracks(){
             this.tracks = [];
+            this.playing = null
+            this.pause = false
 
             music.forEach((track)=>{
 
@@ -238,6 +266,12 @@ Vue.component('playlist-area',{
             })
         }
     },
+
+    mounted(){
+        eventBus.$on('tracking', () => {
+            this.playTracker = (musicTracker/10) * 100;
+        });
+    }
 
     
 });
