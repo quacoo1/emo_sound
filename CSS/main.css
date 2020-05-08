@@ -81,6 +81,7 @@ html,body{
 
 .playlist .track-info{
     position: relative;
+    overflow: hidden;
     padding: 1em 2.2em;
 }
 
@@ -131,16 +132,20 @@ html,body{
     cursor: initial;
     transition: 500ms ease-out ;
 }
-.playlist .track-player{
+
+.playlist .track-player-wrapper{
     position: absolute;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
     top: 0;
     left: 0;
+    border-top-left-radius: 4em;
+    border-bottom-left-radius: 4em;
 }
 
 .playlist .track-player.active{
     height: 100%;
     opacity: .5;
-    border-top-left-radius: 4em;
-    border-bottom-left-radius: 4em;
     background: #ADEFD1FF;
 }

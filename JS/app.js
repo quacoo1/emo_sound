@@ -191,7 +191,9 @@ Vue.component('playlist-area',{
                         <div class="track-info">
                             <div class="track-name"> {{ track.name }} </div>
                             <div class="track-artist">{{ track.artist }}</div>
-                            <div class="track-player" :class="{active: playing===index}" :style="{ width: playTracker + '%' }"></div>
+                            <div class="track-player-wrapper">
+                                <div class="track-player" :class="{active: playing===index}" :style="{ width: playTracker + '%' }"></div>
+                            </div>
                         </div>
                         <div class="btn-controls">      
                             <div class="btn-play" @click="play(index)">  <i v-if = "playing === index && pause === false" class="fas fa-pause"></i> <i v-else class="fas fa-play"></i></div>
@@ -272,7 +274,7 @@ Vue.component('playlist-area',{
     },
 
     mounted(){
-        setInterval(this.playerCurrentTimeIncrement,1000);
+        setInterval(this.playerCurrentTimeIncrement,100);
     }
 
     
